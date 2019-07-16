@@ -349,15 +349,15 @@ class OAuth1Session(requests.Session):
         return token
 
     def _populate_attributes(self, token):
-        if "oauth_token" in token:
+        if "token" in token['data']:
             self._client.client.resource_owner_key = token["oauth_token"]
         else:
             raise TokenMissing(
                 "Response does not contain a token: {resp}".format(resp=token), token
             )
-        if "oauth_token_secret" in token:
+        if "token_secret" in token['data']:
             self._client.client.resource_owner_secret = token["oauth_token_secret"]
-        if "oauth_verifier" in token:
+        if "oauth_verifier" in token['data']:
             self._client.client.verifier = token["oauth_verifier"]
 
     def _fetch_token(self, url, **request_kwargs):
